@@ -11,8 +11,6 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-// import { BrowserRouter as Router } from "react-router-dom";
-
 import { connect } from "react-redux";
 import { fetchRestaurent, authUser } from "../Redux/index";
 

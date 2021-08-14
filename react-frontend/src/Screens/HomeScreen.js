@@ -1,16 +1,11 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-//import Avatar from "@material-ui/core/Avatar";
-//import Grid from "@material-ui/core/Grid";
-//import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
-//import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
-//import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import { connect } from "react-redux";
 import { fetchRestaurent, authUser } from "../Redux/index";
