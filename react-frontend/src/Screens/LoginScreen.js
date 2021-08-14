@@ -23,7 +23,7 @@ const LoginScreen = ({ userData, match, fetchRest, userAuth, history }) => {
   console.log(userData.customerError);
   useEffect(() => {
     fetchRest(id);
-  }, [fetchRest, id]);
+  }, []);
 
   if (userData.loading == true) {
     return null;

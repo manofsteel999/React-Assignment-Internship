@@ -46,7 +46,7 @@ export const fetchRestaurent = (id) => {
 		axios
 			.get("http://localhost:5000/app/login/" + id)
 			.then((response) => {
-				// console.log(response.data);
+				console.log(response.data);
 				dispatch(fetchRestaurentSuccess(response.data));
 			})
 			.catch((error) => {
