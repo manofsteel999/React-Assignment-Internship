@@ -3,6 +3,7 @@ import {
 	FETCH_RESTAURENT_SUCCESS,
 	FETCH_RESTAURENT_ERROR,
 	FETCH_CUSTOMER_SUCCESS,
+	FETCH_CUSTOMER_ERROR,
 } from "./RestaurentTypes";
 import axios from "axios";
 
@@ -25,10 +26,16 @@ export const fetchRestaurentError = (error) => {
 		payload: error,
 	};
 };
-export const userAuthenticatedSuccess = (res) => {
+export const userAuthenticatedSuccess = (customer) => {
 	return {
 		type: FETCH_CUSTOMER_SUCCESS,
-		paylaod: res,
+		payload: customer,
+	};
+};
+
+export const fetchCustomerError = () => {
+	return {
+		type: FETCH_CUSTOMER_ERROR,
 	};
 };
 
@@ -58,12 +65,18 @@ export const authUser = (userId, password) => {
 				Password: password,
 			})
 			.then((response) => {
-				console.log(response);
-				dispatch(userAuthenticatedSuccess(response));
+				//console.log(response.data);
+				if (response.data == "User does not exist") {
+					dispatch(fetchCustomerError());
+				} else {
+					// console.log("hello", response.data);
+					dispatch(userAuthenticatedSuccess(response.data));
+				}
 			})
 			.catch((error) => {
 				const errMsg = error.message;
 				console.log(errMsg);
+				// dispatch(fetchCustomerError(errMsg));
 			});
 	};
 };

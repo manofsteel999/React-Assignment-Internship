@@ -1,28 +1,27 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Avatar from "@material-ui/core/Avatar";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
+//import Avatar from "@material-ui/core/Avatar";
+//import Grid from "@material-ui/core/Grid";
+//import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-// import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-// import MenuIcon from "@material-ui/icons/Menu";
-// import SearchIcon from "@material-ui/icons/Search";
+//import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
+//import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+import { connect } from "react-redux";
+import { fetchRestaurent, authUser } from "../Redux/index";
 
-const HomeScreen = () => {
+const HomeScreen = ({ userData }) => {
 	const classes = useStyles();
 
 	return (
 		<>
 			<div className={classes.root}>
-				<AppBar position="inherit">
+				<AppBar position="relative">
 					<Toolbar variant="dense">
 						<IconButton
 							edge="start"
@@ -39,7 +38,7 @@ const HomeScreen = () => {
 			<CssBaseline />
 			<div className={classes.content}>
 				<Typography variant="h3" align="left">
-					Welcome Back, Ramesh
+					Welcome Back, {userData.customerData.Name}
 				</Typography>
 
 				<Card className={classes.cardroot} variant="bold">
@@ -54,19 +53,32 @@ const HomeScreen = () => {
 						</Typography>
 
 						<Typography variant="h6" color="textPrimary">
-							Name: Ramesh Gupta
+							Name: {userData.customerData.Name}
 						</Typography>
 						<Typography variant="h6" color="textPrimary">
-							Email: avinssdk
+							Email: {userData.customerData.Email}
 						</Typography>
 						<Typography variant="h6" color="textPrimary">
-							UserName:avineshgupta
+							UserName: {userData.customerData.UserId}
 						</Typography>
 					</CardContent>
 				</Card>
 			</div>
 		</>
 	);
+};
+
+const mapStateToProps = (state) => {
+	return {
+		userData: state.Restaurent,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		fetchRest: (id) => dispatch(fetchRestaurent(id)),
+		userAuth: (email, password) => dispatch(authUser(email, password)),
+	};
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -96,4 +108,4 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default HomeScreen;
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

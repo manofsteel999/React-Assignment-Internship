@@ -4,6 +4,7 @@ const User = require("../model/userModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+// Still not implemented Registering functionality
 router.post("/register", (req, res) => {
   const { email, password } = req.body;
 

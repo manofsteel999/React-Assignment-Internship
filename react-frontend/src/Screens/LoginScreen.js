@@ -8,25 +8,24 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-// import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { Link as LinkRouter, BrowserRouter as Router } from "react-router-dom";
-import Axios from "axios";
+// import { BrowserRouter as Router } from "react-router-dom";
+
 import { connect } from "react-redux";
 import { fetchRestaurent, authUser } from "../Redux/index";
 
-const LoginScreen = ({ userData, match, fetchRest, userAuth }) => {
+const LoginScreen = ({ userData, match, fetchRest, userAuth, history }) => {
   const id = match.params.id;
   // console.log(id);
   const classes = useStyles(); // for Material Ui styles
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  console.log(userData.customerError);
   useEffect(() => {
     fetchRest(id);
-  }, [id]);
+  }, [fetchRest, id]);
 
   if (userData.loading == true) {
     return null;
@@ -36,6 +35,10 @@ const LoginScreen = ({ userData, match, fetchRest, userAuth }) => {
     e.preventDefault();
     userAuth(email, password);
     console.log("Form submitted success");
+    console.log(userData.customerData);
+    if (userData.customerData != null) {
+      history.push("/home");
+    } else return;
   };
 
   return (
@@ -44,7 +47,7 @@ const LoginScreen = ({ userData, match, fetchRest, userAuth }) => {
       <div className={classes.content}>
         <Avatar className={classes.avatar}></Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          {userData.restaurent.Login}
         </Typography>
         <form className={classes.form} noValidate onSubmit={submitHandler}>
           <TextField
@@ -53,7 +56,7 @@ const LoginScreen = ({ userData, match, fetchRest, userAuth }) => {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label={`${userData.restaurent.Username}`}
             name="email"
             autoComplete="email"
             autoFocus
@@ -65,7 +68,7 @@ const LoginScreen = ({ userData, match, fetchRest, userAuth }) => {
             required
             fullWidth
             name="password"
-            label="Password"
+            label={`${userData.restaurent.Password}`}
             type="password"
             id="password"
             autoComplete="current-password"
@@ -75,6 +78,9 @@ const LoginScreen = ({ userData, match, fetchRest, userAuth }) => {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
+          {userData.customerError ? (
+            <h3 style={{ color: "red" }}>Incorrect Credentials Entered</h3>
+          ) : null}
           <Button
             type="submit"
             fullWidth
@@ -82,7 +88,7 @@ const LoginScreen = ({ userData, match, fetchRest, userAuth }) => {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            {userData.restaurent.Signin}
           </Button>
           <Grid container>
             <Grid item xs>
