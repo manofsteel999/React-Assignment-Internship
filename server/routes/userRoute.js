@@ -52,36 +52,26 @@ router.get("/app/login/:id", async (req, res) => {
 });
 
 router.post("/api/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { UserId, Password } = req.body;
 
   try {
-    if (!email || !password) {
-      return res.status(422).send("Try again");
+    if (!UserId || !Password) {
+      return res.status(422).send("No Id or Password");
     }
 
     const user = await User.findOne({
-      email,
-      password,
+      "Customers.UserId": UserId,
+      "Customers.Password": Password,
     });
 
     if (!user) {
       return res.send("User does not exist");
     }
 
-    await bcrypt.compare(password, user.password, (err, isMatch) => {
-      if (err) {
-        return res.status(422).send("error in comparing password");
-      }
-      if (!isMatch) {
-        return res.status(422).send("Password does not match");
-      }
-      if (isMatch) {
-        const token = jwt.sign({ userId: user.id }, "MY_SECRET_KEY");
-        res.send(token);
-      }
-    });
+    // console.log(user.Customers[0]);
+    res.send(user.Customers[0]);
   } catch (err) {
-    console.log(err);
+    return res.status(422).send(err);
   }
 });
 

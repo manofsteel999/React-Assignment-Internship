@@ -12,23 +12,32 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { Link as LinkRouter } from "react-router-dom";
+import { Link as LinkRouter, BrowserRouter as Router } from "react-router-dom";
 import Axios from "axios";
 import { connect } from "react-redux";
-import { fetchRestaurent } from "../Redux/index";
+import { fetchRestaurent, authUser } from "../Redux/index";
 
-const LoginScreen = ({ userData, match, fetchRest }) => {
+const LoginScreen = ({ userData, match, fetchRest, userAuth }) => {
   const id = match.params.id;
-  console.log(id);
-  const classes = useStyles();
+  // console.log(id);
+  const classes = useStyles(); // for Material Ui styles
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   useEffect(() => {
     fetchRest(id);
   }, [id]);
+
   if (userData.loading == true) {
     return null;
   }
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    userAuth(email, password);
+    console.log("Form submitted success");
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -37,7 +46,7 @@ const LoginScreen = ({ userData, match, fetchRest }) => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={submitHandler}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -105,6 +114,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchRest: (id) => dispatch(fetchRestaurent(id)),
+    userAuth: (email, password) => dispatch(authUser(email, password)),
   };
 };
 

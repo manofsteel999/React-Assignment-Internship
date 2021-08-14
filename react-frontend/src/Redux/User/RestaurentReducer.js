@@ -2,12 +2,15 @@ import {
 	FETCH_RESTAURENT_REQUEST,
 	FETCH_RESTAURENT_SUCCESS,
 	FETCH_RESTAURENT_ERROR,
+	FETCH_CUSTOMER_SUCCESS,
 } from "./RestaurentTypes";
 
 const initialState = {
 	loading: true,
 	restaurent: {},
 	error: "",
+
+	customerData: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -28,6 +31,11 @@ const reducer = (state = initialState, action) => {
 				loading: false,
 				restaurent: {},
 				error: action.payload,
+			};
+		case FETCH_CUSTOMER_SUCCESS:
+			return {
+				...state,
+				customerData: action.payload,
 			};
 		default:
 			return state;
